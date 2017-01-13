@@ -38,18 +38,8 @@ describe 'these are the user stories' do
     expect { airport.land(plane) }.to raise_error 'Cannot land plane: weather stormy'
   end
 
-  # it 'does not allow planes to take off when stormy' do
-  #
-  # end
+  it 'does not allow planes to take off when stormy' do
+    allow(airport).to receive(:stormy?).and_return true
+    expect { airport.take_off(plane)}.to raise_error 'Cannot take off plane: weather stormy'
+  end
 end
-
-
-
-
-
-
-
-
-  # As an air traffic controller
-  # To ensure safety
-  # I want to prevent takeoff when weather is stormy

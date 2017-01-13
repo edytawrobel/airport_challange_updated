@@ -24,7 +24,6 @@ describe Airport do
       end
     end
 
-
     context 'when stormy' do
       it 'raises an error' do
         allow(airport).to receive(:stormy?).and_return true
@@ -35,8 +34,19 @@ describe Airport do
 
 
   describe '#take_off' do
-    it 'instructs a plane to take off' do
-      expect(airport).to respond_to(:take_off).with(1).argument
+    context 'when not stormy'
+      it 'instructs a plane to take off' do
+        expect(airport).to respond_to(:take_off).with(1).argument
+      end
     end
-  end
+
+    context 'when stormy' do
+      before do
+        allow(airport).to receive(:stormy?).and_return true
+      end
+
+      it 'raises an error' do
+        expect { airport.take_off(plane) }.to raise_error 'Cannot take off plane: weather stormy'
+      end
+    end
 end
