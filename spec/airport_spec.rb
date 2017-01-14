@@ -36,8 +36,16 @@ describe Airport do
 
   describe '#take_off' do
     context 'when not stormy'
+    before do
+      allow(weather_reporter).to receive(:stormy?).and_return false
+    end
+
       it 'instructs a plane to take off' do
         expect(airport).to respond_to(:take_off).with(1).argument
+      end
+
+      it 'raises an error if plane is not at this airport' do
+        other_airport = described_class.new(20, weather_reporter)
       end
     end
 
