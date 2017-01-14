@@ -1,9 +1,11 @@
+require_relative 'weather_reporter'
+
 class Airport
 
-  def initialize(capacity)
+  def initialize(capacity, weather_reporter)
     @capacity = capacity
+    @weather_reporter = weather_reporter
     @planes = []
-
   end
 
   def land(plane)
@@ -23,7 +25,6 @@ class Airport
   end
 
   def stormy?
-    #Kernel.rand(1..6) > 4
-    rand(1..6) > 4
+    @weather_reporter.stormy?
   end
 end
