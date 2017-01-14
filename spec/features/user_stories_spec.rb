@@ -41,19 +41,34 @@ describe 'these are the user stories' do
       Airport::DEFAULT_CAPACITY.times { default_airport.land(plane) }
       expect { default_airport.land(plane) }.to raise_error "Cannot land plane: capacity full"
     end
-  end
+
 
 
   # As an air traffic controller
   # To ensure safety
   # I want to prevent landing when the airport is full
   it 'does not allow planes to land when airport is full' do
-    allow(airport).to receive(:stormy?).and_return false
     20.times do
       airport.land(plane)
     end
     expect { airport.land(plane) }.to raise_error "Cannot land plane: capacity full"
   end
+
+  # As an air traffic controller
+  # So the system is consistent and correctly reports plane status and location
+  # I want to ensure a flying plane cannot take off and cannot be in the airport
+  it 'flying planes cannot take off' do
+    airport.land(plane)
+    flying_plane = airport.take_off(plane)
+    expect { flying_plane.take_off }.to raise_error 'Plane cannot take off: plane already flying'
+  end
+
+  it 'flying planes cannot be at the airport' do
+    airport.land(plane)
+    flying_plane = airport.take_off(plane)
+    expect { flying_plane.airport}.to raise_error 'Plane cannot be at the airport: plane already flying'
+  end
+end
 
 
   # As an air traffic controller
